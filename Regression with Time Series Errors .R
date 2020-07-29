@@ -1,20 +1,18 @@
 
 # Regression with Time Series Errors
 
-# package we'll need.
 library(forecast) 
 install.packages('forecast', dependencies = TRUE)
 
 help(LakeHuron)
-
-# First things first: Look at the data!
+#look at data
 layout(matrix(c(1,1,2,3),2,2,byrow = T))
-plot(LakeHuron, main='Levels of Lake Huron')  # I spy a trend
-acf(LakeHuron, main='ACF')  # Maybe a weak trend
+plot(LakeHuron, main='Levels of Lake Huron')  # I c a trend
+acf(LakeHuron, main='ACF')  # Maybe weak trend
 pacf(LakeHuron, main='PACF')
 
-# 1. Remove the least-squares trend. The residuals are the time series
-#    we will model!
+# 1. Remove the least-squares trend. 
+  
 Years = 1875:1972
 Y2 = Years*Years
 lsfit = lm(LakeHuron~Years + Y2)
@@ -27,8 +25,8 @@ eps = ts(lsfit$residuals)
 
 # 2. Find a time series model for the residuals.
 layout(matrix(c(1,1,2,3),2,2,byrow = T))
-plot(eps, main='Levels of Lake Huron')  # I spy a trend
-acf(eps, main='ACF')  # Maybe a weak trend
+plot(eps, main='Levels of Lake Huron')  
+acf(eps, main='ACF')  
 pacf(eps, main='PACF')
 ##########
 errmodel = auto.arima(eps)  # Chooses the best-fit ARIMA model.
